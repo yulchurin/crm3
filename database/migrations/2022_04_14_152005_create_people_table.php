@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->date('date_of_birth');
+
             $table->string('phone', 10)->unique();
             $table->string('zip', 50)->nullable();
             $table->string('region', 255)->nullable();
@@ -27,6 +28,13 @@ return new class extends Migration
             $table->string('street', 255)->nullable();
             $table->string('house', 50)->nullable();
             $table->string('flat', 50)->nullable();
+
+            $table->string('passport_series', 4);
+            $table->string('passport_number', 6);
+            $table->string('passport_issuer', 100);
+            $table->date('passport_issuance_date');
+            $table->string('place_of_birth', 100)->nullable();
+            $table->string('snils', 11)->nullable()->unique();
 
             $table->timestamps();
             $table->softDeletes();

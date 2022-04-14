@@ -50,6 +50,12 @@ class Person extends Model
         'address_street',
         'address_house',
         'address_flat',
+        'passport_series',
+        'passport_number',
+        'passport_issuer',
+        'passport_issuance_date',
+        'place_of_birth',
+        'snils',
     ];
 
     /**
@@ -57,6 +63,7 @@ class Person extends Model
      */
     protected $dates = [
         'date_of_birth',
+        'passport_issuance_date',
     ];
 
     /**
@@ -67,16 +74,6 @@ class Person extends Model
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Person has one Passport
-     *
-     * @return HasOne
-     */
-    public function passport(): HasOne
-    {
-        return $this->hasOne(Passport::class);
     }
 
     /**

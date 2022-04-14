@@ -13,12 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 require_once 'admin.php';
 
-Route::view('/home', 'home')->middleware('auth');
+Route::view('/', 'home')->middleware('auth');
