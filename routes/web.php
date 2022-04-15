@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 require_once 'admin.php';
+require_once 'socialite.php';
 
 Route::view('/', 'home')->middleware('auth');

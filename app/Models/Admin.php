@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Common\Interfaces\UserRole;
+use App\Common\Interfaces\StaffRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,12 +53,12 @@ class Admin extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === UserRole::ADMIN;
+        return $this->role === StaffRole::ADMIN;
     }
 
     public function isOwner(): bool
     {
-        return $this->role === UserRole::OWNER;
+        return $this->role === StaffRole::OWNER;
     }
 
     /**
@@ -68,7 +68,7 @@ class Admin extends Authenticatable
      */
     public function isTeacher(): bool
     {
-        return $this->role === UserRole::TEACHER;
+        return $this->role === StaffRole::TEACHER;
     }
 
     /**
@@ -78,6 +78,6 @@ class Admin extends Authenticatable
      */
     public function isInstructor(): bool
     {
-        return $this->role === UserRole::INSTRUCTOR;
+        return $this->role === StaffRole::INSTRUCTOR;
     }
 }

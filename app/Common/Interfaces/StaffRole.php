@@ -2,7 +2,7 @@
 
 namespace App\Common\Interfaces;
 
-interface UserRole
+interface StaffRole
 {
     public const OWNER = -100;
     public const ADMIN = -50;

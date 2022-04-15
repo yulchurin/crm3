@@ -12,7 +12,6 @@ class BookDrivingLesson
 {
     public function __invoke(AppointmentData $data, Appointment $appointment): void
     {
-        //todo authorization
         $appointment->place()->associate(Place::find($data->place));
         $appointment->student()->associate(User::find(Auth::id()));
         $appointment->comment = $data->comment;

@@ -2,85 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePersonRequest;
-use App\Http\Requests\UpdatePersonRequest;
-use App\Models\Person;
+use App\Http\Requests\ParentPersonRequest;
+use App\Http\Requests\PersonRequest;
+use App\Http\Resources\PaperResource;
+use App\Http\Resources\PersonResource;
+use App\Traits\GetStudent;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    use GetStudent;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function __construct()
     {
-        //
+        $this->middleware('phoneFix')->except('index');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePersonRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param PersonRequest $request
+     * @return RedirectResponse|JsonResponse
      */
-    public function store(StorePersonRequest $request)
+    public function store(PersonRequest $request)
     {
-        //
+        $student = $this->getStudent();
+
+        if ($student?->person()->exists()) {
+            $student->person()->update($request->validated());
+        } else {
+            $student->person()->create($request->validated());
+        }
+
+        Log::channel('user_actions')->info(Auth::id() . ': ' .json_encode($request->validated()));
+
+        return $request->wantsJson()
+            ? new JsonResponse('', 200)
+            : back()->with('status', 'profile-information-updated');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
+     * @return Response|ResponseFactory
      */
-    public function show(Person $person)
+    public function index()
     {
-        //
+        $student = $this->getStudent();
+
+        $personResource = $student->person()->exists() ? new PersonResource($student->person) : null;
+        $paperResource = $student->paper()->exists() ? new PaperResource($student->paper) : null;
+
+        $parentPerson = $student->legalRepresentativePerson()->exists()
+            ? new PersonResource($student->legalRepresentativePerson)
+            : null;
+
+        $parentPaper = $student->legalRepresentativePerson?->paper()->exists()
+            ? new PaperResource($student->legalRepresentativePerson?->paper)
+            : null;
+
+        return inertia('Person/Show', [
+            'person' => $personResource,
+            'paper' => $paperResource,
+            'parent' => $parentPerson,
+            'parent_paper' => $parentPaper,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Person $person)
+    public function storeParent(ParentPersonRequest $request)
     {
-        //
-    }
+        $student = $this->getStudent();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePersonRequest  $request
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePersonRequest $request, Person $person)
-    {
-        //
-    }
+        if ($student?->legalRepresentativePerson()->exists()) {
+            $student->legalRepresentativePerson()->update($request->validated());
+        } else {
+            $legalRepresentative = $student->legalRepresentative()->create();
+            $legalRepresentativePerson = $student->legalRepresentativePerson()->create($request->validated());
+            $legalRepresentativePerson->legal_representative_id = $legalRepresentative->id;
+            $legalRepresentativePerson->save();
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Person  $person
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Person $person)
-    {
-        //
+        Log::channel('user_actions')->info(Auth::id() . ': ' .json_encode($request->validated()));
+
+        return $request->wantsJson()
+            ? new JsonResponse('', 200)
+            : back()->with('status', 'profile-information-updated');
     }
 }
