@@ -63,12 +63,12 @@ class Limitations
         $student = Auth::user();
         $group = $student->group;
 
-        $totalSpentSeconds = $appointments->sum(function ($appointment) {
+        $totalSpentMinutes = $appointments->sum(function ($appointment) {
             return $appointment->schedule?->duration;
         });
 
-        // divide by 3600 = hours (60 minutes in one hour, 60 seconds in one minute - 60*60)
-        return ($totalSpentSeconds / 3600) >= $group?->getDriveHours();
+        // divide by 60 minutes (in one hour)
+        return ($totalSpentMinutes / 60) >= $group?->getDriveHours();
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Utilities;
 /**
  * Transforms money from integer into separated
  */
-class MoneyTransformer
+final class MoneyTransformer
 {
     public int $rubles;
     public int $kopecks;
