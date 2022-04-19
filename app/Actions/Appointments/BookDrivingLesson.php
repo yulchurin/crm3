@@ -12,8 +12,8 @@ class BookDrivingLesson
 {
     public function __invoke(AppointmentData $data, Appointment $appointment): void
     {
-        $appointment->place()->associate(Place::find($data->place));
-        $appointment->student()->associate(User::find(Auth::id()));
+        $appointment->place()->associate($data->place);
+        $appointment->student()->associate(Auth::user());
         $appointment->comment = $data->comment;
 
         $appointment->save();

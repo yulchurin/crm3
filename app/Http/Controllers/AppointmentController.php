@@ -41,8 +41,7 @@ class AppointmentController extends Controller
         $validated = $request->validated();
 
         $data = new AppointmentData(
-            id: $validated['id'],
-            place: $validated['place'],
+            place: Place::find($validated['place']),
             comment: $validated['comment'],
         );
 

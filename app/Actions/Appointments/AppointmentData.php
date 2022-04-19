@@ -2,13 +2,13 @@
 
 namespace App\Actions\Appointments;
 
+use App\Models\Place;
+use App\Models\User;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class AppointmentData extends DataTransferObject
 {
-    public int $id;
-
-    public int $place;
+    public Place $place;
 
     public string $comment;
 }
