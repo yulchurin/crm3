@@ -3,8 +3,6 @@
 namespace App\Actions\Appointments;
 
 use App\Models\Appointment;
-use App\Models\Place;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
