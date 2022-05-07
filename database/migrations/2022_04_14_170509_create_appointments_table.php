@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->tinyInteger('status')->nullable();
+
             $table->foreignId('group_id')->nullable()->constrained();
             $table->foreignId('vehicle_id')->constrained();
             $table->foreignId('schedule_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('instructor_id')->references('id')->on('users');
+            $table->foreign('instructor_id')->references('id')->on('admins');
         });
     }
 

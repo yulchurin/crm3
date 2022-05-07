@@ -5,7 +5,7 @@ namespace App\Utilities;
 /**
  * Transforms money from integer into separated
  */
-final class MoneyTransformer
+final class MoneyFormatter
 {
     public int $rubles;
     public int $kopecks;
@@ -31,10 +31,10 @@ final class MoneyTransformer
         return (int) substr((string) $value, -2);
     }
 
-    public static function getStringWithSymbol($value): string
+    public static function format($value): string
     {
         $number = self::split($value);
         $formatted = number_format((float) $number, 2, ',', ' ');
-        return $formatted . ' ₽';
+        return $formatted . ' ₽';
     }
 }
