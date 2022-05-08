@@ -4,7 +4,7 @@ namespace App\Utilities;
 
 use Illuminate\Support\Str;
 
-class SNILSValidator
+final class SNILSValidator
 {
     /**
      * Validates SNILS by checksum
@@ -26,7 +26,7 @@ class SNILSValidator
             $checksumCalculated += $snilsDigitsArray[$multiplier - 1] * $multiplier;
         }
 
-        return static::getExpected($checksumCalculated) === $checksum;
+        return self::getExpected($checksumCalculated) === $checksum;
     }
 
     /**
@@ -42,7 +42,7 @@ class SNILSValidator
         } elseif ($calculated === 100 || $calculated === 101) {
             return 0;
         } else {
-            return static::getExpected($calculated % 101);
+            return self::getExpected($calculated % 101);
         }
     }
 }
