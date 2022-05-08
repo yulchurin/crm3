@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,7 @@ Auth::routes();
 require_once 'admin.php';
 require_once 'socialite.php';
 
-Route::view('/', 'home')->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::view('/', 'home')->name('home');
+    Route::view('/home', 'home');
+});

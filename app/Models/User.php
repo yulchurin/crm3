@@ -41,6 +41,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function isStudent(): bool
     {
         return $this->role === StudentRole::STUDENT;

@@ -4,7 +4,7 @@
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                    <div class="card w-75 shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
 
                             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet">
@@ -15,7 +15,7 @@
                             </svg>
 
                             <h3 class="mb-4">
-                                {{ isset($url) ? ucwords($url) : ""}} {{ __('Login') }}
+                                {{ isset($url) ? strtoupper($url) : ""}}
                             </h3>
 
                             <div class="d-grid gap-2 col-12 mx-auto">

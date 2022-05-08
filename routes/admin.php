@@ -7,5 +7,8 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::view('/admin', 'admin');
 });
 
-Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm']);
-Route::post('/login/admin', [LoginController::class, 'adminLogin']);
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login/admin', 'showAdminLoginForm');
+    Route::post('/login/admin', 'adminLogin');
+});
+
