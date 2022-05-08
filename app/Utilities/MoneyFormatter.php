@@ -7,15 +7,6 @@ namespace App\Utilities;
  */
 final class MoneyFormatter
 {
-    public int $rubles;
-    public int $kopecks;
-
-    public function __construct(public int $value)
-    {
-        $this->rubles = (int) substr((string) $this->value, 0, -2);
-        $this->kopecks = (int) substr((string) $this->value, -2);
-    }
-
     /**
      * Returns split value ("rub.kop")
      *
