@@ -39,10 +39,12 @@ final class SNILSValidator
     {
         if ($calculated < 100) {
             return $calculated;
-        } elseif ($calculated === 100 || $calculated === 101) {
-            return 0;
-        } else {
-            return self::getExpected($calculated % 101);
         }
+
+        if ($calculated === 100 || $calculated === 101) {
+            return 0;
+        }
+
+        return self::getExpected($calculated % 101);
     }
 }
