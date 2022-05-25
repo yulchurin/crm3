@@ -23,8 +23,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->boolean('active')->default(false);
             $table->foreignId('group_id')->nullable()->constrained();
-            $table->string('google_id')->nullable();
-            $table->string('vk_id')->nullable();
+            $table->string('socialite_id')->nullable();
             $table->tinyInteger('role')->default(30);
 
             $table->foreignId('person_id')->nullable()->constrained()->cascadeOnDelete();

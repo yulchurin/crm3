@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Common\Interfaces\StudentRole;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -34,9 +33,12 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_photo_path',
+        'socialite_id',
+        'role',
     ];
 
     protected $hidden = [
+        'socialite_id',
         'password',
         'remember_token',
     ];

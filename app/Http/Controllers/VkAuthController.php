@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Auth\SocialiteAuth;
 use App\Common\Interfaces\StudentRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -29,38 +30,7 @@ class VkAuthController extends Controller
      */
     public function callback(): \Illuminate\Http\RedirectResponse
     {
-        try {
-            $vkUser = Socialite::driver('vkontakte')->user();
-
-            $user = User::where('vk_id', $vkUser->id)->first();
-
-            if ($user) {
-                Auth::login($user);
-            } else {
-                $dummyEmail = $vkUser->getNickname()
-                    ? $vkUser->getNickname() . '@vk.com'
-                    : $vkUser->getId() . '@vk.com';
-
-                $newUser = User::create([
-                    'name' => $vkUser->getName(),
-                    'email' => $vkUser->getEmail() ?? $dummyEmail,
-                    'vk_id' => $vkUser->getId(),
-                    'password' => Hash::make(Str::random(10)),
-                    'profile_photo_path' => $vkUser->getAvatar(),
-                    'role' => StudentRole::ENROLLEE,
-                ]);
-                Auth::login($newUser);
-            }
-
-            if (!$user && !$newUser) {
-                throw new Exception("$dummyEmail login error", 500);
-            }
-
-        } catch (Exception $e) {
-            if ($e->getCode() !== 0) {
-                Log::channel('auth')->error($vkUser?->getId() .': '. $e->getMessage());
-            }
-        }
+        SocialiteAuth::callback('vkontakte');
 
         return redirect()->intended('home');
     }
