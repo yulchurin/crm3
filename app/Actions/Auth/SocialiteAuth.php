@@ -18,7 +18,7 @@ class SocialiteAuth
         $email = $socialNetUser->getEmail();
 
         if ($driver === 'vkontakte') {
-            $email = $email ?? $socialNetUser->getId() . '@vk.com';
+            $email = $socialNetUser->getId() . '@vk.com';
         }
 
         $user = User::firstOrCreate([
